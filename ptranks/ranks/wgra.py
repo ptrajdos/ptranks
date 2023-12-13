@@ -1,3 +1,6 @@
+"""
+Implements Weighted Global Ranking Approach (WGRA) method.
+"""
 import numpy as np
 
 
@@ -28,16 +31,21 @@ def wgra(array, weights):
     ranks = np.zeros((n_datasets, n_methods, n_runs))
 
     for j in range(n_datasets):
-
         for h in range(n_runs):
-
             if np.allclose(sigma_j_h[j, h], 0.0):
                 ranks[j, :, h] = set_idx_mean
                 continue
 
             for i in range(n_methods):
-                ranks[j, i, h] = n_methods + 1 - (set_idx_mean - (
-                    (array[j, i, h] - v_j_h_bar[j, h]) * sigma_r_j_h[j]) / sigma_j_h[j, h])
+                ranks[j, i, h] = (
+                    n_methods
+                    + 1
+                    - (
+                        set_idx_mean
+                        - ((array[j, i, h] - v_j_h_bar[j, h]) * sigma_r_j_h[j])
+                        / sigma_j_h[j, h]
+                    )
+                )
 
     tmp_ranks = np.mean(ranks, axis=2)  # (n_datasets, n_methods)
     avg_ranks = np.mean(tmp_ranks, axis=0)

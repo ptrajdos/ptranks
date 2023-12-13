@@ -1,3 +1,6 @@
+"""
+Implements Naive Ranking Approach (NRA) method
+"""
 import numpy as np
 from scipy.stats import rankdata
 

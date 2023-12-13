@@ -1,11 +1,15 @@
-
+"""
+Testing module
+"""
+import numpy as np
 from tests.ranks.rank_test import RankTest
 from ptranks.ranks.nra import nra
 
-import numpy as np
-
 
 class NRATest(RankTest):
+    """
+    Testing class for nra function
+    """
 
     __test__ = True
 
@@ -13,13 +17,15 @@ class NRATest(RankTest):
         return nra
 
     def test_nra_paper(self):
-
-        wra = self.get_method()
+        """
+        Reproduces example from paper
+        """
+        nra_fun = self.get_method()
 
         array = self.get_table_1()
         weights = np.asanyarray([0.5])
 
-        ranks = wra(array, weights)
+        ranks = nra_fun(array, weights)
 
         expected_ranks = 5 - np.asanyarray([2, 1, 3, 4])
 

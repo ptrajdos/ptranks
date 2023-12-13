@@ -1,3 +1,6 @@
+"""
+Implements Weighted Ranking Approach (WRA) method
+"""
 import numpy as np
 
 
@@ -17,7 +20,7 @@ def wra(array, weights):
     ---------
     Numpy array -- average ranks vector of size (n_methods, )
     """
-    n_datasets, n_methods, n_runs = array.shape
+    n_datasets, n_methods, _ = array.shape
     pi_w_1 = np.mean(array, axis=2)  # (n_datasets, n_methods)
     v_j_bar_bar = np.mean(pi_w_1, axis=1)  # (n_datasets, )
     sigma_j = np.std(pi_w_1, axis=1)  # (n_datasets, )
@@ -27,15 +30,19 @@ def wra(array, weights):
     ranks = np.zeros((n_datasets, n_methods))
 
     for j in range(n_datasets):
-
         if np.allclose(sigma_j[j], 0.0):
             ranks[j, :] = set_idx_mean
             continue
 
         for i in range(n_methods):
-            ranks[j, i] = n_methods + 1 - \
-                (set_idx_mean -
-                 ((pi_w_1[j, i] - v_j_bar_bar[j]) * sigma_r_j[j]) / sigma_j[j])
+            ranks[j, i] = (
+                n_methods
+                + 1
+                - (
+                    set_idx_mean
+                    - ((pi_w_1[j, i] - v_j_bar_bar[j]) * sigma_r_j[j]) / sigma_j[j]
+                )
+            )
 
     avg_ranks = np.mean(ranks, axis=0)
 
