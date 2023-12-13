@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.stats import rankdata
 
+
 def gra(array, weights):
     """
     Implements Global Ranking Approach (GRA) method described in:
@@ -18,8 +19,9 @@ def gra(array, weights):
     ---------
     Numpy array -- average ranks vector of size (n_methods, )
     """
-    ranks_global = rankdata(array, axis=1 ) # (n_datasets, n_methods, n_runs)
-    ranks_global_average = np.mean(ranks_global,axis=2) # (n_datasets, n_methods,)
-    avg_ranks = np.mean(ranks_global_average, axis=0) # (n_methods,)
-    
+    ranks_global = rankdata(array, axis=1)  # (n_datasets, n_methods, n_runs)
+    ranks_global_average = np.mean(
+        ranks_global, axis=2)  # (n_datasets, n_methods,)
+    avg_ranks = np.mean(ranks_global_average, axis=0)  # (n_methods,)
+
     return avg_ranks

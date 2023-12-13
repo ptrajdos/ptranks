@@ -28,12 +28,12 @@ class RankTest(unittest.TestCase):
         ).transpose()
         table = np.expand_dims(table, axis=0)
         return table
-    
+
     def get_table_1_col_means(self):
         return np.mean(self.get_table_1, axis=1)
-    
+
     def test_sanity(self):
-        
+
         exp_repetitions = 5
         method = self.get_method()
         np.random.seed(0)
@@ -61,34 +61,34 @@ class RankTest(unittest.TestCase):
 
 
     def test_the_same_performance(self):
-            
-            exp_repetitions = 5
-            method = self.get_method()
 
-            np.random.seed(10)
+        exp_repetitions = 5
+        method = self.get_method()
 
-            for n_datasets in [1,3,5,10]:
-                for n_methods in [1,3,5]:
-                    for n_runs in [1,3,5,10]:
+        np.random.seed(10)
 
-                        for _ in range(exp_repetitions):
+        for n_datasets in [1,3,5,10]:
+            for n_methods in [1,3,5]:
+                for n_runs in [1,3,5,10]:
 
-                            array = np.zeros( (n_datasets, n_methods, n_runs) )
-                            array[:] = np.random.random((1,))
-                            weights = np.random.random((n_datasets,))
+                    for _ in range(exp_repetitions):
 
-                            ranks = method(array, weights)
+                        array = np.zeros( (n_datasets, n_methods, n_runs) )
+                        array[:] = np.random.random((1,))
+                        weights = np.random.random((n_datasets,))
 
-                            self.assertIsNotNone(ranks, "Ranks array is None")
-                            self.assertIsInstance(ranks, np.ndarray, "Result is not an numpy array")
-                            self.assertFalse(any(np.isnan(ranks)), "Ranks contain NaNs")
-                            self.assertFalse(any(np.isinf(ranks)), "Ranks with infinite values")
-                            self.assertTrue( ranks.shape == (n_methods,), "Wrong size of rank array")
+                        ranks = method(array, weights)
 
-                            desired_rank_sum = n_methods * (n_methods + 1.0)/2.0
-                            rank_sum = np.sum(ranks)
+                        self.assertIsNotNone(ranks, "Ranks array is None")
+                        self.assertIsInstance(ranks, np.ndarray, "Result is not an numpy array")
+                        self.assertFalse(any(np.isnan(ranks)), "Ranks contain NaNs")
+                        self.assertFalse(any(np.isinf(ranks)), "Ranks with infinite values")
+                        self.assertTrue( ranks.shape == (n_methods,), "Wrong size of rank array")
 
-                            self.assertTrue(np.allclose( rank_sum, desired_rank_sum ), "Wrong ranks sum")
+                        desired_rank_sum = n_methods * (n_methods + 1.0)/2.0
+                        rank_sum = np.sum(ranks)
+
+                        self.assertTrue(np.allclose( rank_sum, desired_rank_sum ), "Wrong ranks sum")
 
     def test_consistency(self):
 
@@ -113,4 +113,3 @@ class RankTest(unittest.TestCase):
 
 
 
-            

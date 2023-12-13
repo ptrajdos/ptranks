@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.stats import rankdata
 
+
 def nra(array, weights):
     """
     Implements Naive Ranking Approach (NRA) method described in:
@@ -18,8 +19,8 @@ def nra(array, weights):
     ---------
     Numpy array -- average ranks vector of size (n_methods, )
     """
-    pi_0_1 = np.mean(array, axis=2) # (n_datasets, n_methods)
+    pi_0_1 = np.mean(array, axis=2)  # (n_datasets, n_methods)
     ranks = rankdata(pi_0_1, axis=1)
-    avg_ranks = np.mean(ranks,axis=0)
-    
+    avg_ranks = np.mean(ranks, axis=0)
+
     return avg_ranks

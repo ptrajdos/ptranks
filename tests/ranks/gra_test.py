@@ -7,10 +7,10 @@ import numpy as np
 class GRATest(RankTest):
 
     __test__ = True
-    
+
     def get_method(self):
         return gra
-    
+
     def test_gra_paper(self):
 
         wra = self.get_method()
