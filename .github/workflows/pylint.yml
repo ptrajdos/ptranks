@@ -17,7 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
+        pip install pylint numpy>=1.22.4 scipy>=1.10.1
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
