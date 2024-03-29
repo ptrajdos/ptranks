@@ -5,7 +5,7 @@ import numpy as np
 from scipy.stats import rankdata
 
 
-def gra(array, weights):
+def gra(array, weights = None):
     """
     Implements Global Ranking Approach (GRA) method described in:
       A New Kind of Nonparametric Test for Statistical Comparison of Multiple Classifiers Over Multiple Datasets

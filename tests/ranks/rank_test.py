@@ -82,6 +82,42 @@ class RankTest(unittest.TestCase):
                             np.allclose(rank_sum, desired_rank_sum), "Wrong ranks sum"
                         )
 
+    def test_sanity_no_weights(self):
+        """
+        Tests sanity of the ranking method
+        """
+        exp_repetitions = 5
+        method = self.get_method()
+        np.random.seed(0)
+
+        for n_datasets in [1, 3, 5, 10]:
+            for n_methods in [1, 3, 5]:
+                for n_runs in [1, 3, 5, 10]:
+                    for _ in range(exp_repetitions):
+                        array = np.random.random((n_datasets, n_methods, n_runs))
+                        weights = np.random.random((n_datasets,))
+
+                        ranks = method(array)
+
+                        self.assertIsNotNone(ranks, "Ranks array is None")
+                        self.assertIsInstance(
+                            ranks, np.ndarray, "Result is not an numpy array"
+                        )
+                        self.assertFalse(any(np.isnan(ranks)), "Ranks contain NaNs")
+                        self.assertFalse(
+                            any(np.isinf(ranks)), "Ranks with infinite values"
+                        )
+                        self.assertTrue(
+                            ranks.shape == (n_methods,), "Wrong size of rank array"
+                        )
+
+                        desired_rank_sum = n_methods * (n_methods + 1.0) / 2.0
+                        rank_sum = np.sum(ranks)
+
+                        self.assertTrue(
+                            np.allclose(rank_sum, desired_rank_sum), "Wrong ranks sum"
+                        )
+
     def test_the_same_performance(self):
         """
         Testing ranking methods against uniform criterion value

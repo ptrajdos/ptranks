@@ -4,7 +4,7 @@ Implements Weighted Ranking Approach (WRA) method
 import numpy as np
 
 
-def wra(array, weights):
+def wra(array, weights = None):
     """
     Implements Weighted Ranking Approach (WRA) method described in:
       A New Kind of Nonparametric Test for Statistical Comparison of Multiple Classifiers Over Multiple Datasets
@@ -21,6 +21,8 @@ def wra(array, weights):
     Numpy array -- average ranks vector of size (n_methods, )
     """
     n_datasets, n_methods, _ = array.shape
+    if weights is None:
+        weights = np.ones( (n_datasets, ))
     pi_w_1 = np.mean(array, axis=2)  # (n_datasets, n_methods)
     v_j_bar_bar = np.mean(pi_w_1, axis=1)  # (n_datasets, )
     sigma_j = np.std(pi_w_1, axis=1)  # (n_datasets, )

@@ -5,7 +5,7 @@ import numpy as np
 from scipy.stats import rankdata
 
 
-def nra(array, weights):
+def nra(array, weights = None):
     """
     Implements Naive Ranking Approach (NRA) method described in:
       A New Kind of Nonparametric Test for Statistical Comparison of Multiple Classifiers Over Multiple Datasets

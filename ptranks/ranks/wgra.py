@@ -4,7 +4,7 @@ Implements Weighted Global Ranking Approach (WGRA) method.
 import numpy as np
 
 
-def wgra(array, weights):
+def wgra(array, weights=None):
     """
     Implements Weighted Global Ranking Approach (WGRA) method described in:
       A New Kind of Nonparametric Test for Statistical Comparison of Multiple Classifiers Over Multiple Datasets
@@ -21,6 +21,8 @@ def wgra(array, weights):
     Numpy array -- average ranks vector of size (n_methods, )
     """
     n_datasets, n_methods, n_runs = array.shape
+    if weights is None:
+        weights = np.ones( (n_datasets, ))
 
     v_j_h_bar = np.mean(array, axis=1)  # (n_datasets, n_runs )
     sigma_j_h = np.std(array, axis=1)  # (n_datasets, n_runs )
