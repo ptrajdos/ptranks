@@ -14,8 +14,20 @@ setup(
                 'ptranks.*',
                 ]),
         install_requires=[ 
-                'numpy>=1.22.4',
                 'scipy>=1.10.1',
         ],
+        extras_require={
+        "dev": [
+                'coverage>=7.8.0, <8.0.0',
+                'unittest-parallel>=1.5.3, <2.0.0',
+                'pandas>=2.0.0',
+                'pdoc3>=0.11.1, <1.0.0',
+                'pytest>=8.3.5, <9.0.0',
+                'pytest-cov>=6.1.1, <7.0.0',
+                'pytest-profiling>=1.8.1, <2.0.0',
+                'pytest-xdist>=3.6.1, <4.0.0',
+                'snakeviz>=2.2.2, <3.0.0',
+        ],
+        },
         test_suite='test'
         )
