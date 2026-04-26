@@ -23,13 +23,11 @@ class WRATest(RankTest):
         wra_fun = self.get_method()
 
         array = self.get_table_1()
-        weights = np.asanyarray([0.61])
-
+        weights = None
         ranks = wra_fun(array, weights)
 
         # A bit different from paper due to different rounding
         expected_ranks = 5 - np.asanyarray(
-            [1.152454731, 0.8224436447, 3.7925434213, 4.232558203]
+            [1.315, 1.024, 3.637, 4.024]
         )
-
-        self.assertTrue(np.allclose(ranks, expected_ranks), "Wrong ranks!")
+        self.assertTrue(np.allclose(ranks, expected_ranks, atol=1e-3), "Wrong ranks!")

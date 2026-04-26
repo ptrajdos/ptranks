@@ -2,7 +2,7 @@
 Implements Weighted Global Ranking Approach (WGRA) method.
 """
 import numpy as np
-
+from scipy.stats import rankdata
 
 def wgra(array, weights=None):
     """
@@ -21,15 +21,22 @@ def wgra(array, weights=None):
     Numpy array -- average ranks vector of size (n_methods, )
     """
     n_datasets, n_methods, n_runs = array.shape
-    if weights is None:
-        weights = np.ones( (n_datasets, ))
+    
 
     v_j_h_bar = np.mean(array, axis=1)  # (n_datasets, n_runs )
-    sigma_j_h = np.std(array, axis=1)  # (n_datasets, n_runs )
+    sigma_j_h = np.std(array, axis=1, ddof=1)  # (n_datasets, n_runs )
     set_idx_mean = np.mean(np.arange(1, n_methods + 1))
 
-    sigma_r_j_h = weights * set_idx_mean  # (n_datasets,)
+    n_ranks = rankdata(array, axis=1) # (n_datasets, n_methods, n_runs) - ranks of methods for each dataset and run
 
+    if weights is None:
+        max_ranks = np.max(n_ranks, axis=1)  # (n_datasets, n_runs )
+        min_ranks = np.min(n_ranks, axis=1)  # (n_datasets, n_runs )
+        rnk_diff = max_ranks - min_ranks  # (n_datasets, n_runs )
+        acc_diffs = np.max(array, axis=1) - np.min(array, axis=1)  # (n_datasets, n_runs )
+        weights = (sigma_j_h * rnk_diff) / (acc_diffs * set_idx_mean)  # (n_datasets, n_runs )
+
+    sigma_r_j_h = weights * set_idx_mean  # (n_datasets, n_runs)
     ranks = np.zeros((n_datasets, n_methods, n_runs))
 
     for j in range(n_datasets):
@@ -44,7 +51,7 @@ def wgra(array, weights=None):
                     + 1
                     - (
                         set_idx_mean
-                        - ((array[j, i, h] - v_j_h_bar[j, h]) * sigma_r_j_h[j])
+                        - ((array[j, i, h] - v_j_h_bar[j, h]) * sigma_r_j_h[j, h])
                         / sigma_j_h[j, h]
                     )
                 )
