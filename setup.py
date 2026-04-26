@@ -27,6 +27,7 @@ setup(
                 'pytest-profiling>=1.8.1, <2.0.0',
                 'pytest-xdist>=3.6.1, <4.0.0',
                 'snakeviz>=2.2.2, <3.0.0',
+                'tox>=4.0.0, <5.0.0',
         ],
         },
         test_suite='test'
